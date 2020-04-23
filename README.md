@@ -9,6 +9,15 @@ Install via composer
 ```bash
 composer require alexmg86/laravel-sub-query
 ```
+Use LaravelSubQueryTrait trait in your model.
+```php
+use Alexmg86\LaravelSubQuery\Traits\LaravelSubQueryTrait;
+use Illuminate\Database\Eloquent\Model;
+
+class Invoice extends Model
+{
+	use LaravelSubQueryTrait;
+```
 
 ## Usage
 
