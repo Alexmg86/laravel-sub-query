@@ -69,6 +69,5 @@ If you discover any security related issues, please email instead of using the i
 
 ## Credits
 
-- [](https://github.com/alexmg86/laravel-sub-query)
 - [All contributors](https://github.com/alexmg86/laravel-sub-query/graphs/contributors)
 
