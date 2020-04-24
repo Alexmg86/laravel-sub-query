@@ -31,10 +31,12 @@ If you want to get results from a relationship without actually loading them and
 ```php
 $invoices = Invoice::withSum('items:price,price2')->get();
 echo $invoices[0]->items_price_sum;
+
 $invoices = Invoice::withMin('items:price,price2')->get();
 echo $invoices[0]->items_price_min;
 ```
 The following methods apply to all methods.!!!
+
 You may add the "sum" for multiple relations as well as add constraints to the queries:
 ```php
 use Illuminate\Database\Eloquent\Builder;
