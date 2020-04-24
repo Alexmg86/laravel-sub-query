@@ -27,10 +27,14 @@ class Invoice extends Model
 
 ## Usage
 
-If you want to summarize the columns of results from a relationship without actually loading them and by one request to the database you may use the `withSum` method, which will place a `relation_column_sum` column on your resulting models. For example:
+If you want to get results from a relationship without actually loading them and by one request to the database you may use the these methods, which will place a new columns on your resulting models. For example:
 ```php
 $invoices = Invoice::withSum('items:price,price2')->get();
+echo $invoices[0]->items_price_sum;
+$invoices = Invoice::withMin('items:price,price2')->get();
+echo $invoices[0]->items_price_min;
 ```
+The following methods apply to all methods.!!!
 You may add the "sum" for multiple relations as well as add constraints to the queries:
 ```php
 use Illuminate\Database\Eloquent\Builder;
