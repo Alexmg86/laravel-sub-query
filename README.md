@@ -1,10 +1,8 @@
 # Laravel Sub Query
 
-<p align="center">
-<a href="https://github.com/alexmg86/laravel-sub-query/actions"><img src="https://github.com/Alexmg86/laravel-sub-query/workflows/PHP%20Composer/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/alexmg86/laravel-sub-query"><img src="https://poser.pugx.org/alexmg86/laravel-sub-query/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/alexmg86/laravel-sub-query"><img src="https://poser.pugx.org/alexmg86/laravel-sub-query/license.svg" alt="License"></a>
-</p>
+![PHP Composer](https://github.com/Alexmg86/laravel-sub-query/workflows/PHP%20Composer/badge.svg)
+[![Latest Stable Version](https://poser.pugx.org/alexmg86/laravel-sub-query/v/stable)](https://packagist.org/packages/alexmg86/laravel-sub-query)
+[![License](https://poser.pugx.org/alexmg86/laravel-sub-query/license)](https://packagist.org/packages/alexmg86/laravel-sub-query)
 
 ## Installation
 
