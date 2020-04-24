@@ -4,6 +4,11 @@
 [![Latest Stable Version](https://poser.pugx.org/alexmg86/laravel-sub-query/v/stable)](https://packagist.org/packages/alexmg86/laravel-sub-query)
 [![License](https://poser.pugx.org/alexmg86/laravel-sub-query/license)](https://packagist.org/packages/alexmg86/laravel-sub-query)
 
+## Why is this method needed?
+
+Now, when you trying to summarize a column in a related model, you get 2 queries in the database. With this method, it all turns into 1 query to the database and there is no need to load extra data.
+I often use this in my work and I hope it will be useful to you!
+
 ## Installation
 
 Install via composer
@@ -58,11 +63,6 @@ $invoice->loadSum(['items:price' => function ($query) {
 }]);
 ```
 And of course it is all compatible with scopes in models.
-
-### Why is this method needed?
-
-Now, when you trying to summarize a column in a related model, you get 2 queries in the database. With this method, it all turns into 1 query to the database and there is no need to load extra data.
-I often use this in my work and I hope it will be useful to you!
 
 ## Security
 

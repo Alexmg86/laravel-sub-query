@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class LaravelSubQueryTest extends DatabaseTestCase
+class LaravelSubQueryWithMinTest extends DatabaseTestCase
 {
     protected function getPackageProviders($app)
     {
@@ -56,10 +56,10 @@ class LaravelSubQueryTest extends DatabaseTestCase
             Good::create(['invoice_id' => $invoice->id, 'price' => $i, 'price2' => $i + 1]);
         }
 
-        $results = Invoice::withSum('items:price,price2');
+        $results = Invoice::withMin('items:price,price2');
 
         $this->assertEquals([
-            ['id' => 1, 'name' => 'text_name', 'items_price_sum' => 55, 'items_price2_sum' => 65],
+            ['id' => 1, 'name' => 'text_name', 'items_price_min' => 1, 'items_price2_min' => 2],
         ], $results->get()->toArray());
     }
 
@@ -71,12 +71,12 @@ class LaravelSubQueryTest extends DatabaseTestCase
             Good::create(['invoice_id' => $invoice->id, 'price' => $i, 'price2' => $i + 1]);
         }
 
-        $results = Invoice::withSum(['items:price', 'goods:price,price2' => function (Builder $query) {
+        $results = Invoice::withMin(['items:price', 'goods:price,price2' => function (Builder $query) {
             $query->where('price', '>', 6);
         }]);
 
         $this->assertEquals([
-            ['id' => 1, 'name' => 'text_name', 'items_price_sum' => 55, 'goods_price_sum' => 34, 'goods_price2_sum' => 38],
+            ['id' => 1, 'name' => 'text_name', 'items_price_min' => 1, 'goods_price_min' => 7, 'goods_price2_min' => 8],
         ], $results->get()->toArray());
     }
 
@@ -87,14 +87,14 @@ class LaravelSubQueryTest extends DatabaseTestCase
             Item::create(['invoice_id' => $invoice->id, 'price' => $i, 'price2' => $i + 1]);
         }
 
-        $results = Invoice::select(['id'])->withSum('items:price');
+        $results = Invoice::select(['id'])->withMin('items:price');
 
         $this->assertEquals([
-            ['id' => 1, 'items_price_sum' => 55],
+            ['id' => 1, 'items_price_min' => 1],
         ], $results->get()->toArray());
     }
 
-    public function testLoadSum()
+    public function testLoadMin()
     {
         $invoice = Invoice::create(['id' => 1, 'name' => 'text_name']);
         for ($i = 1; $i < 11; $i++) {
@@ -102,12 +102,12 @@ class LaravelSubQueryTest extends DatabaseTestCase
         }
 
         $results = Invoice::first();
-        $results->loadSum('items:price');
+        $results->loadMin('items:price');
 
-        $this->assertEquals(['id' => 1, 'name' => 'text_name', 'items_price_sum' => 55], $results->toArray());
+        $this->assertEquals(['id' => 1, 'name' => 'text_name', 'items_price_min' => 1], $results->toArray());
     }
 
-    public function testLoadSumWithConditions()
+    public function testLoadMinWithConditions()
     {
         $invoice = Invoice::create(['id' => 1, 'name' => 'text_name']);
         for ($i = 1; $i < 11; $i++) {
@@ -115,11 +115,11 @@ class LaravelSubQueryTest extends DatabaseTestCase
         }
 
         $results = Invoice::first();
-        $results->loadSum(['items:price' => function ($query) {
+        $results->loadMin(['items:price' => function ($query) {
             $query->where('price', '>', 5);
         }]);
 
-        $this->assertEquals(['id' => 1, 'name' => 'text_name', 'items_price_sum' => 40], $results->toArray());
+        $this->assertEquals(['id' => 1, 'name' => 'text_name', 'items_price_min' => 6], $results->toArray());
     }
 
     public function testGlobalScopes()
@@ -129,11 +129,11 @@ class LaravelSubQueryTest extends DatabaseTestCase
             Good::create(['invoice_id' => $invoice->id, 'price' => $i, 'price2' => $i + 1]);
         }
 
-        $result = Invoice::withSum('goods:price')->first();
-        $this->assertEquals(40, $result->goods_price_sum);
+        $result = Invoice::withMin('goods:price')->first();
+        $this->assertEquals(6, $result->goods_price_min);
 
-        $result = Invoice::withSum('allGoods:price')->first();
-        $this->assertEquals(55, $result->all_goods_price_sum);
+        $result = Invoice::withMin('allGoods:price')->first();
+        $this->assertEquals(1, $result->all_goods_price_min);
     }
 
     public function testSortingScopes()
@@ -143,55 +143,8 @@ class LaravelSubQueryTest extends DatabaseTestCase
             Item::create(['invoice_id' => $invoice->id, 'price' => $i, 'price2' => $i + 1]);
         }
 
-        $result = Invoice::withSum('items:price')->toSql();
+        $result = Invoice::withMin('items:price')->toSql();
 
-        $this->assertSame('select "invoices".*, (select sum(price) from "items" where "invoices"."id" = "items"."invoice_id") as "items_price_sum" from "invoices"', $result);
-    }
-}
-
-class Invoice extends Model
-{
-    use LaravelSubQueryTrait;
-
-    public $table = 'invoices';
-    public $timestamps = false;
-    protected $guarded = ['id'];
-
-    public function items()
-    {
-        return $this->hasMany(Item::class, 'invoice_id');
-    }
-
-    public function goods()
-    {
-        return $this->hasMany(Good::class, 'invoice_id');
-    }
-
-    public function allGoods()
-    {
-        return $this->goods()->withoutGlobalScopes();
-    }
-}
-
-class Item extends Model
-{
-    public $table = 'items';
-    public $timestamps = false;
-    protected $guarded = ['id'];
-}
-
-class Good extends Model
-{
-    public $table = 'goods';
-    public $timestamps = false;
-    protected $guarded = ['id'];
-
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::addGlobalScope('app', function ($builder) {
-            $builder->where('price', '>', 5);
-        });
+        $this->assertSame('select "invoices".*, (select min(price) from "items" where "invoices"."id" = "items"."invoice_id") as "items_price_min" from "invoices"', $result);
     }
 }

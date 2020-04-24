@@ -14,10 +14,10 @@ trait LaravelSubQueryRelation
      * @param  \Illuminate\Database\Eloquent\Builder  $parentQuery
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function getRelationExistenceSumQuery(Builder $query, Builder $parentQuery, $column)
+    public function getRelationExistenceSubQuery(Builder $query, Builder $parentQuery, $column, $type)
     {
         return $this->getRelationExistenceQuery(
-            $query, $parentQuery, new Expression('sum('.$column.')')
+            $query, $parentQuery, new Expression(''.$type.'('.$column.')')
         )->setBindings([], 'select');
     }
 }

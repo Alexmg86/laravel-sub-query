@@ -24,6 +24,21 @@ trait LaravelSubQueryTrait
         return $this;
     }
 
+    /**
+     * Eager load relation min value on the model.
+     *
+     * @param  array|string  $relations
+     * @return $this
+     */
+    public function loadMin($relations)
+    {
+        $relations = is_string($relations) ? func_get_args() : $relations;
+
+        $this->newCollection([$this])->loadMin($relations);
+
+        return $this;
+    }
+
     public function newEloquentBuilder($builder)
     {
         $newEloquentBuilder = new LaravelSubQuery($builder);
@@ -31,6 +46,10 @@ trait LaravelSubQueryTrait
 
         if (isset($this->withSum)) {
             $newEloquentBuilder->setWithSum($this->withSum);
+        }
+
+        if (isset($this->withMin)) {
+            $newEloquentBuilder->setWithMin($this->withMin);
         }
 
         return $newEloquentBuilder;
