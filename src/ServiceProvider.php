@@ -4,7 +4,7 @@ namespace Alexmg86\LaravelSubQuery;
 
 class ServiceProvider extends \Illuminate\Support\ServiceProvider
 {
-    const CONFIG_PATH = __DIR__ . '/../config/laravel-sub-query.php';
+    const CONFIG_PATH = __DIR__.'/../config/laravel-sub-query.php';
 
     public function boot()
     {

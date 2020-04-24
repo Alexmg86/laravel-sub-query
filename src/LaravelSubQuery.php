@@ -2,24 +2,23 @@
 
 namespace Alexmg86\LaravelSubQuery;
 
-use Alexmg86\LaravelSubQuery\Relation\LaravelSubQueryRelation;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\QueriesRelationships;
 use Illuminate\Support\Str;
 
-class LaravelSubQuery extends Builder {
+class LaravelSubQuery extends Builder
+{
+    use QueriesRelationships;
 
-	use QueriesRelationships;
-
-	/**
+    /**
      * The relationship sums that should be eager loaded on every query.
      *
      * @var array
      */
     protected $withSums = [];
 
-	public function withSum($relations) {
-
+    public function withSum($relations)
+    {
         if (empty($relations)) {
             return $this;
         }
@@ -31,7 +30,6 @@ class LaravelSubQuery extends Builder {
         $relations = is_array($relations) ? $relations : func_get_args();
 
         foreach ($this->parseWithSumRelations($relations) as $name => $constraints) {
-
             $nameExplode = explode(':', $name);
             $name = $nameExplode[0];
             $columns = isset($nameExplode[1]) ? explode(',', $nameExplode[1]) : [];
@@ -42,7 +40,6 @@ class LaravelSubQuery extends Builder {
             // as a sub-select. First, we'll get the "has" query and use that to get the relation
             // sum query. We will normalize the relation name then append _{column}_sum as the name.
             foreach ($columns as $column) {
-
                 $query = $relation->getRelationExistenceSumQuery(
                 // $query = $relation->getRelationExistenceCountQuery(
                     $relation->getRelated()->newQuery(), $this, $column
@@ -78,7 +75,8 @@ class LaravelSubQuery extends Builder {
      * @param  array  $relations
      * @return array
      */
-    protected function parseWithSumRelations(array $relations) {
+    protected function parseWithSumRelations(array $relations)
+    {
         $results = [];
 
         foreach ($relations as $name => $constraints) {
@@ -99,7 +97,8 @@ class LaravelSubQuery extends Builder {
         return $results;
     }
 
-    public function setWithSum($withSum) {
-    	return $this->withSum($withSum);
+    public function setWithSum($withSum)
+    {
+        return $this->withSum($withSum);
     }
 }
