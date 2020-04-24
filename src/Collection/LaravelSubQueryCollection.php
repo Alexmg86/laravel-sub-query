@@ -5,8 +5,8 @@ namespace Alexmg86\LaravelSubQuery\Collection;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Arr;
 
-class LaravelSubQueryCollection extends Collection {
-
+class LaravelSubQueryCollection extends Collection
+{
     /**
      * Load a set of relationship sum of column onto the collection.
      *
@@ -38,5 +38,4 @@ class LaravelSubQueryCollection extends Collection {
 
         return $this;
     }
-    
 }

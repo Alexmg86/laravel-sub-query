@@ -5,9 +5,9 @@ namespace Alexmg86\LaravelSubQuery\Relations;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Query\Expression;
 
-trait LaravelSubQueryRelation  {
-
-	/**
+trait LaravelSubQueryRelation
+{
+    /**
      * Add the constraints for a relationship sum of column query.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query

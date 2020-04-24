@@ -8,7 +8,7 @@ use Alexmg86\LaravelSubQuery\Relations\LaravelSubQueryRelation;
 trait LaravelSubQueryJoinRelationTrait
 {
     use LaravelSubQueryRelation;
-    
+
     /**
      * Handle dynamic method calls to the relationship.
      *
