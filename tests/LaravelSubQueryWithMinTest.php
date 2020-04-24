@@ -4,9 +4,7 @@ namespace Alexmg86\LaravelSubQuery\Tests;
 
 use Alexmg86\LaravelSubQuery\Facades\LaravelSubQuery;
 use Alexmg86\LaravelSubQuery\ServiceProvider;
-use Alexmg86\LaravelSubQuery\Traits\LaravelSubQueryTrait;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 

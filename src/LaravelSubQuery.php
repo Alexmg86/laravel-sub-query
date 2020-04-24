@@ -45,7 +45,7 @@ class LaravelSubQuery extends Builder
         }
 
         $relations = is_array($relations) ? $relations : array_slice(func_get_args(), 0, 1);
-        
+
         foreach ($this->parseForSubQueryRelations($relations) as $name => $constraints) {
             $nameExplode = explode(':', $name);
             $name = $nameExplode[0];
@@ -75,7 +75,7 @@ class LaravelSubQuery extends Builder
 
                     $query->bindings['select'] = [];
                 }
-                
+
                 // Finally we will add the proper result column alias to the query and run the subselect
                 // statement against the query builder. Then we will return the builder instance back
                 // to the developer for further constraint chaining that needs to take place on it.
