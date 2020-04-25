@@ -18,11 +18,18 @@ class LaravelSubQuery extends Builder
     protected $withSum = [];
 
     /**
-     * The relationship sums that should be eager loaded on every query.
+     * The relationship min value that should be eager loaded on every query.
      *
      * @var array
      */
     protected $withMin = [];
+
+    /**
+     * The relationship max value that should be eager loaded on every query.
+     *
+     * @var array
+     */
+    protected $withMax = [];
 
     public function withSum($relations)
     {
@@ -32,6 +39,11 @@ class LaravelSubQuery extends Builder
     public function withMin($relations)
     {
         return $this->withSubQuery($relations, 'min');
+    }
+
+    public function withMax($relations)
+    {
+        return $this->withSubQuery($relations, 'max');
     }
 
     protected function withSubQuery($relations, $type)
@@ -122,5 +134,10 @@ class LaravelSubQuery extends Builder
     public function setWithMin($withMin)
     {
         return $this->withMin($withMin);
+    }
+
+    public function setWithMax($withMax)
+    {
+        return $this->withMax($withMax);
     }
 }

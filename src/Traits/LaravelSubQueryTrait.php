@@ -39,6 +39,21 @@ trait LaravelSubQueryTrait
         return $this;
     }
 
+    /**
+     * Eager load relation max value on the model.
+     *
+     * @param  array|string  $relations
+     * @return $this
+     */
+    public function loadMax($relations)
+    {
+        $relations = is_string($relations) ? func_get_args() : $relations;
+
+        $this->newCollection([$this])->loadMax($relations);
+
+        return $this;
+    }
+
     public function newEloquentBuilder($builder)
     {
         $newEloquentBuilder = new LaravelSubQuery($builder);
@@ -50,6 +65,10 @@ trait LaravelSubQueryTrait
 
         if (isset($this->withMin)) {
             $newEloquentBuilder->setWithMin($this->withMin);
+        }
+
+        if (isset($this->withMax)) {
+            $newEloquentBuilder->setWithMax($this->withMax);
         }
 
         return $newEloquentBuilder;
