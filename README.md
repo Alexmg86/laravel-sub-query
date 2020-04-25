@@ -6,7 +6,8 @@
 
 ## Why is this method needed?
 
-Now, if you want the sum or find the maximum column value in the related model, you will have two database queries. With this methods, it all turns into 1 query to the database and there is no need to load extra data.
+Now, if you want the sum or find the maximum column value in the related model, you will have two database queries. 
+With this methods, it all turns into 1 query to the database and there is no need to load extra data.
 I often use this in my work and I hope it will be useful to you!
 
 ## Installation
@@ -74,12 +75,3 @@ $invoice->loadSum(['items:price' => function ($query) {
 }]);
 ```
 And of course it is all compatible with scopes in models.
-
-## Security
-
-If you discover any security related issues, please email instead of using the issue tracker.
-
-## Credits
-
-- [All contributors](https://github.com/alexmg86/laravel-sub-query/graphs/contributors)
-
