@@ -34,6 +34,9 @@ echo $invoices[0]->items_price_sum;
 
 $invoices = Invoice::withMin('items:price,price2')->get();
 echo $invoices[0]->items_price_min;
+
+$invoices = Invoice::withMax('items:price,price2')->get();
+echo $invoices[0]->items_price_max;
 ```
 The following methods apply to all methods.!!!
 
