@@ -54,6 +54,21 @@ trait LaravelSubQueryTrait
         return $this;
     }
 
+    /**
+     * Eager load relation max value on the model.
+     *
+     * @param  array|string  $relations
+     * @return $this
+     */
+    public function loadAvg($relations)
+    {
+        $relations = is_string($relations) ? func_get_args() : $relations;
+
+        $this->newCollection([$this])->loadAvg($relations);
+
+        return $this;
+    }
+
     public function newEloquentBuilder($builder)
     {
         $newEloquentBuilder = new LaravelSubQuery($builder);
@@ -69,6 +84,10 @@ trait LaravelSubQueryTrait
 
         if (isset($this->withMax)) {
             $newEloquentBuilder->setWithMax($this->withMax);
+        }
+
+        if (isset($this->withAvg)) {
+            $newEloquentBuilder->setWithAvg($this->withAvg);
         }
 
         return $newEloquentBuilder;

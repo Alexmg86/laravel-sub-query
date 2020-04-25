@@ -31,6 +31,13 @@ class LaravelSubQuery extends Builder
      */
     protected $withMax = [];
 
+    /**
+     * The relationship avg value that should be eager loaded on every query.
+     *
+     * @var array
+     */
+    protected $withAvg = [];
+
     public function withSum($relations)
     {
         return $this->withSubQuery($relations, 'sum');
@@ -44,6 +51,11 @@ class LaravelSubQuery extends Builder
     public function withMax($relations)
     {
         return $this->withSubQuery($relations, 'max');
+    }
+
+    public function withAvg($relations)
+    {
+        return $this->withSubQuery($relations, 'avg');
     }
 
     protected function withSubQuery($relations, $type)
@@ -139,5 +151,10 @@ class LaravelSubQuery extends Builder
     public function setWithMax($withMax)
     {
         return $this->withMax($withMax);
+    }
+
+    public function setWithAvg($withAvg)
+    {
+        return $this->withAvg($withAvg);
     }
 }

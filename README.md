@@ -6,7 +6,7 @@
 
 ## Why is this method needed?
 
-Now, when you trying to summarize a column in a related model, you get 2 queries in the database. With this method, it all turns into 1 query to the database and there is no need to load extra data.
+Now, if you want the sum or find the maximum column value in the related model, you will have two database queries. With this methods, it all turns into 1 query to the database and there is no need to load extra data.
 I often use this in my work and I hope it will be useful to you!
 
 ## Installation
@@ -29,16 +29,18 @@ class Invoice extends Model
 
 If you want to get results from a relationship without actually loading them and by one request to the database you may use the these methods, which will place a new columns on your resulting models. For example:
 ```php
-$invoices = Invoice::withSum('items:price,price2')->get();
+$invoices = Invoice::withSum('items:price')
+    ->withMin('items:price')
+    ->withMax('items:price')
+    ->withAvg('items:price')
+    ->get();
+
 echo $invoices[0]->items_price_sum;
-
-$invoices = Invoice::withMin('items:price,price2')->get();
 echo $invoices[0]->items_price_min;
-
-$invoices = Invoice::withMax('items:price,price2')->get();
 echo $invoices[0]->items_price_max;
+echo $invoices[0]->items_price_avg;
 ```
-The following methods apply to all methods!!!!
+### The following methods apply to all methods!!!
 
 You may add the "sum" for multiple relations as well as add constraints to the queries:
 ```php
