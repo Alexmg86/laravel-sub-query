@@ -38,7 +38,7 @@ echo $invoices[0]->items_price_min;
 $invoices = Invoice::withMax('items:price,price2')->get();
 echo $invoices[0]->items_price_max;
 ```
-The following methods apply to all methods!!!
+The following methods apply to all methods!!!!
 
 You may add the "sum" for multiple relations as well as add constraints to the queries:
 ```php
