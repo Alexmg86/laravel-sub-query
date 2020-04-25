@@ -85,10 +85,10 @@ class LaravelSubQueryWithMaxTest extends DatabaseTestCase
             Item::create(['invoice_id' => $invoice->id, 'price' => $i, 'price2' => $i + 1]);
         }
 
-        $results = Invoice::select(['id'])->withMax('items:price');
+        $results = Invoice::select(['id'])->withMax('items:price as price_max');
 
         $this->assertEquals([
-            ['id' => 1, 'items_price_max' => 10],
+            ['id' => 1, 'price_max' => 10],
         ], $results->get()->toArray());
     }
 

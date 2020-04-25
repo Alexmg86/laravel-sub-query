@@ -71,6 +71,14 @@ class LaravelSubQuery extends Builder
         $relations = is_array($relations) ? $relations : array_slice(func_get_args(), 0, 1);
 
         foreach ($this->parseForSubQueryRelations($relations) as $name => $constraints) {
+            $segments = explode(' ', $name);
+
+            unset($alias);
+
+            if (count($segments) === 3 && Str::lower($segments[1]) === 'as') {
+                [$name, $alias] = [$segments[0], $segments[2]];
+            }
+
             $nameExplode = explode(':', $name);
             $name = $nameExplode[0];
             $columns = isset($nameExplode[1]) ? explode(',', $nameExplode[1]) : [];
@@ -103,7 +111,9 @@ class LaravelSubQuery extends Builder
                 // Finally we will add the proper result column alias to the query and run the subselect
                 // statement against the query builder. Then we will return the builder instance back
                 // to the developer for further constraint chaining that needs to take place on it.
-                $this->selectSub($query, Str::snake($name.'_'.$column.'_'.$type));
+                $column = $alias ?? Str::snake($name.'_'.$column.'_'.$type);
+
+                $this->selectSub($query, $column);
             }
         }
 

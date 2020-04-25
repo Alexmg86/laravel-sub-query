@@ -85,10 +85,10 @@ class LaravelSubQueryWithAvgTest extends DatabaseTestCase
             Item::create(['invoice_id' => $invoice->id, 'price' => $i, 'price2' => $i + 1]);
         }
 
-        $results = Invoice::select(['id'])->withAvg('items:price');
+        $results = Invoice::select(['id'])->withAvg('items:price as price_avg');
 
         $this->assertEquals([
-            ['id' => 1, 'items_price_avg' => 5.5],
+            ['id' => 1, 'price_avg' => 5.5],
         ], $results->get()->toArray());
     }
 

@@ -87,10 +87,10 @@ class LaravelSubQueryWithSumTest extends DatabaseTestCase
             Item::create(['invoice_id' => $invoice->id, 'price' => $i, 'price2' => $i + 1]);
         }
 
-        $results = Invoice::select(['id'])->withSum('items:price');
+        $results = Invoice::select(['id'])->withSum('items:price as price_sum');
 
         $this->assertEquals([
-            ['id' => 1, 'items_price_sum' => 55],
+            ['id' => 1, 'price_sum' => 55],
         ], $results->get()->toArray());
     }
 

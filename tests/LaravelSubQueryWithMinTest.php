@@ -85,10 +85,10 @@ class LaravelSubQueryWithMinTest extends DatabaseTestCase
             Item::create(['invoice_id' => $invoice->id, 'price' => $i, 'price2' => $i + 1]);
         }
 
-        $results = Invoice::select(['id'])->withMin('items:price');
+        $results = Invoice::select(['id'])->withMin('items:price as price_min');
 
         $this->assertEquals([
-            ['id' => 1, 'items_price_min' => 1],
+            ['id' => 1, 'price_min' => 1],
         ], $results->get()->toArray());
     }
 

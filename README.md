@@ -43,7 +43,7 @@ echo $invoices[0]->items_price_avg;
 ```
 ### The following methods apply to all methods!!!
 
-You may add the "sum" for multiple relations as well as add constraints to the queries:
+You may add the sum for multiple relations as well as add constraints to the queries:
 ```php
 use Illuminate\Database\Eloquent\Builder;
 
@@ -54,6 +54,17 @@ $invoices = Invoice::withSum(['items:price', 'goods:price,price2' => function (B
 echo $invoices[0]->items_price_sum;
 echo $invoices[0]->goods_price_sum;
 echo $invoices[0]->goods_price2_sum;
+```
+You may also alias the relationship sum result, allowing multiple sums on the same relationship:
+```php
+use Illuminate\Database\Eloquent\Builder;
+
+$invoices = Invoice::withSum(['items:price', 'goods:price as sum_goods_price' => function (Builder $query) {
+    $query->where('price','!=',1);
+}])->get();
+
+echo $invoices[0]->items_price_sum;
+echo $invoices[0]->sum_goods_price;
 ```
 If you're combining `withSum` with a `select` statement, ensure that you call `withSum` after the `select` method:
 ```php
