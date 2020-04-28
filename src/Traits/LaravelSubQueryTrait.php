@@ -7,8 +7,6 @@ use Alexmg86\LaravelSubQuery\LaravelSubQuery;
 
 trait LaravelSubQueryTrait
 {
-    use LaravelSubQueryRelationsTrait;
-
     /**
      * Eager load relation sums on the model.
      *

@@ -4,6 +4,7 @@ namespace Alexmg86\LaravelSubQuery;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\QueriesRelationships;
+use Illuminate\Database\Query\Expression;
 use Illuminate\Support\Str;
 
 class LaravelSubQuery extends Builder
@@ -89,10 +90,9 @@ class LaravelSubQuery extends Builder
             // as a sub-select. First, we'll get the "has" query and use that to get the relation
             // sum query. We will normalize the relation name then append _{column}_sum as the name.
             foreach ($columns as $column) {
-                $query = $relation->getRelationExistenceSubQuery(
-                // $query = $relation->getRelationExistenceCountQuery(
-                    $relation->getRelated()->newQuery(), $this, $column, $type
-                );
+                $query = $relation->getRelationExistenceQuery(
+                    $relation->getRelated()->newQuery(), $this, new Expression(''.$type.'('.$column.')')
+                )->setBindings([], 'select');
 
                 $query->callScope($constraints);
 
