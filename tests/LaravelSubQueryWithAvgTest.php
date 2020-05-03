@@ -4,9 +4,10 @@ namespace Alexmg86\LaravelSubQuery\Tests;
 
 use Alexmg86\LaravelSubQuery\Facades\LaravelSubQuery;
 use Alexmg86\LaravelSubQuery\ServiceProvider;
+use Alexmg86\LaravelSubQuery\Tests\Models\Good;
+use Alexmg86\LaravelSubQuery\Tests\Models\Invoice;
+use Alexmg86\LaravelSubQuery\Tests\Models\Item;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
 
 class LaravelSubQueryWithAvgTest extends DatabaseTestCase
 {
@@ -20,30 +21,6 @@ class LaravelSubQueryWithAvgTest extends DatabaseTestCase
         return [
             'laravel-sub-query' => LaravelSubQuery::class,
         ];
-    }
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        Schema::create('invoices', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('name', 100);
-        });
-
-        Schema::create('items', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('invoice_id');
-            $table->integer('price');
-            $table->integer('price2');
-        });
-
-        Schema::create('goods', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('invoice_id');
-            $table->integer('price');
-            $table->integer('price2');
-        });
     }
 
     public function testBasic()

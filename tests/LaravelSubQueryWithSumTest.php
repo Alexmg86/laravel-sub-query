@@ -4,11 +4,10 @@ namespace Alexmg86\LaravelSubQuery\Tests;
 
 use Alexmg86\LaravelSubQuery\Facades\LaravelSubQuery;
 use Alexmg86\LaravelSubQuery\ServiceProvider;
-use Alexmg86\LaravelSubQuery\Traits\LaravelSubQueryTrait;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
+use Alexmg86\LaravelSubQuery\Tests\Models\Good;
+use Alexmg86\LaravelSubQuery\Tests\Models\Invoice;
+use Alexmg86\LaravelSubQuery\Tests\Models\Item;
 
 class LaravelSubQueryWithSumTest extends DatabaseTestCase
 {
@@ -22,30 +21,6 @@ class LaravelSubQueryWithSumTest extends DatabaseTestCase
         return [
             'laravel-sub-query' => LaravelSubQuery::class,
         ];
-    }
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        Schema::create('invoices', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('name', 100);
-        });
-
-        Schema::create('items', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('invoice_id');
-            $table->integer('price');
-            $table->integer('price2');
-        });
-
-        Schema::create('goods', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('invoice_id');
-            $table->integer('price');
-            $table->integer('price2');
-        });
     }
 
     public function testBasic()
@@ -146,52 +121,5 @@ class LaravelSubQueryWithSumTest extends DatabaseTestCase
         $result = Invoice::withSum('items:price')->toSql();
 
         $this->assertSame('select "invoices".*, (select sum(price) from "items" where "invoices"."id" = "items"."invoice_id") as "items_price_sum" from "invoices"', $result);
-    }
-}
-
-class Invoice extends Model
-{
-    use LaravelSubQueryTrait;
-
-    public $table = 'invoices';
-    public $timestamps = false;
-    protected $guarded = ['id'];
-
-    public function items()
-    {
-        return $this->hasMany(Item::class, 'invoice_id');
-    }
-
-    public function goods()
-    {
-        return $this->hasMany(Good::class, 'invoice_id');
-    }
-
-    public function allGoods()
-    {
-        return $this->goods()->withoutGlobalScopes();
-    }
-}
-
-class Item extends Model
-{
-    public $table = 'items';
-    public $timestamps = false;
-    protected $guarded = ['id'];
-}
-
-class Good extends Model
-{
-    public $table = 'goods';
-    public $timestamps = false;
-    protected $guarded = ['id'];
-
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::addGlobalScope('app', function ($builder) {
-            $builder->where('price', '>', 5);
-        });
     }
 }
