@@ -1,6 +1,6 @@
 <?php
-namespace Alexmg86\LaravelSubQuery\Tests\Models;
 
+namespace Alexmg86\LaravelSubQuery\Tests\Models;
 
 use Illuminate\Database\Eloquent\Model;
 

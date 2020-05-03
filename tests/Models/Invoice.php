@@ -1,4 +1,5 @@
 <?php
+
 namespace Alexmg86\LaravelSubQuery\Tests\Models;
 
 use Alexmg86\LaravelSubQuery\Traits\LaravelSubQueryTrait;

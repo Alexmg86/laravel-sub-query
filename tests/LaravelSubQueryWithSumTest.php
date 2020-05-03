@@ -4,10 +4,10 @@ namespace Alexmg86\LaravelSubQuery\Tests;
 
 use Alexmg86\LaravelSubQuery\Facades\LaravelSubQuery;
 use Alexmg86\LaravelSubQuery\ServiceProvider;
-use Illuminate\Database\Eloquent\Builder;
 use Alexmg86\LaravelSubQuery\Tests\Models\Good;
 use Alexmg86\LaravelSubQuery\Tests\Models\Invoice;
 use Alexmg86\LaravelSubQuery\Tests\Models\Item;
+use Illuminate\Database\Eloquent\Builder;
 
 class LaravelSubQueryWithSumTest extends DatabaseTestCase
 {
