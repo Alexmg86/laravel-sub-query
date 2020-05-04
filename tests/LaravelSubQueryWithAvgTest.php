@@ -47,11 +47,11 @@ class LaravelSubQueryWithAvgTest extends DatabaseTestCase
         }
 
         $results = Invoice::withAvg(['items:price', 'goods:price,price2' => function (Builder $query) {
-            $query->where('price', '>', 6);
+            $query->where('price', '<', 5);
         }]);
 
         $this->assertEquals([
-            ['id' => 1, 'name' => 'text_name', 'items_price_avg' => 5.5, 'goods_price_avg' => 8.5, 'goods_price2_avg' => 9.5],
+            ['id' => 1, 'name' => 'text_name', 'items_price_avg' => 5.5, 'goods_price_avg' => 2.5, 'goods_price2_avg' => 3.5],
         ], $results->get()->toArray());
     }
 
@@ -105,7 +105,7 @@ class LaravelSubQueryWithAvgTest extends DatabaseTestCase
         }
 
         $result = Invoice::withAvg('goods:price')->first();
-        $this->assertEquals(8.0, $result->goods_price_avg);
+        $this->assertEquals(2.5, $result->goods_price_avg);
 
         $result = Invoice::withAvg('allGoods:price')->first();
         $this->assertEquals(5.5, $result->all_goods_price_avg);

@@ -47,11 +47,11 @@ class LaravelSubQueryWithMaxTest extends DatabaseTestCase
         }
 
         $results = Invoice::withMax(['items:price', 'goods:price,price2' => function (Builder $query) {
-            $query->where('price', '>', 6);
+            $query->where('price', '<', 5);
         }]);
 
         $this->assertEquals([
-            ['id' => 1, 'name' => 'text_name', 'items_price_max' => 10, 'goods_price_max' => 10, 'goods_price2_max' => 11],
+            ['id' => 1, 'name' => 'text_name', 'items_price_max' => 10, 'goods_price_max' => 4, 'goods_price2_max' => 5],
         ], $results->get()->toArray());
     }
 
@@ -105,7 +105,7 @@ class LaravelSubQueryWithMaxTest extends DatabaseTestCase
         }
 
         $result = Invoice::withMax('goods:price')->first();
-        $this->assertEquals(10, $result->goods_price_max);
+        $this->assertEquals(4, $result->goods_price_max);
 
         $result = Invoice::withMax('allGoods:price')->first();
         $this->assertEquals(10, $result->all_goods_price_max);

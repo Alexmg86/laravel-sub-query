@@ -4,10 +4,11 @@
 [![Latest Stable Version](https://poser.pugx.org/alexmg86/laravel-sub-query/v/stable)](https://packagist.org/packages/alexmg86/laravel-sub-query)
 [![License](https://poser.pugx.org/alexmg86/laravel-sub-query/license)](https://packagist.org/packages/alexmg86/laravel-sub-query)
 
-## Why is this method needed?
+## Why is this package needed?
 
-Now, if you want the sum or find the maximum column value in the related model, you will have two database queries. 
-With this methods, it all turns into 1 query to the database and there is no need to load extra data.
+Now, if you want the sum or find the maximum column value in the related model, you will have two database queries.  
+With this methods, it all turns into 1 query to the database and there is no need to load extra data.  
+It is also possible to sort by related models. And this sorting works with all types of relations.  
 I often use this in my work and I hope it will be useful to you!
 
 ## Installation
@@ -86,3 +87,17 @@ $invoice->loadSum(['items:price' => function ($query) {
 }]);
 ```
 And of course it is all compatible with scopes in models.
+
+### Sorting
+
+If you want to sort by field in a related model, simply use the following method:
+```php
+$invoices = Invoice::orderByRelation('items:price')->get();
+```
+or with conditions
+```php
+$invoices = Invoice::orderByRelation(['items:price' => function (Builder $query) {
+    $query->where('price', '>', 6);
+}, 'max', 'desc'])->get();
+```
+By default, sorting is by `max` and `desc`, you can choose one of the options `max`, `min`, `sum`, `avg`, `desc`, `acs`.

@@ -15,7 +15,7 @@ class Good extends Model
         parent::boot();
 
         static::addGlobalScope('app', function ($builder) {
-            $builder->where('price', '>', 5);
+            $builder->where('price', '<', 5);
         });
     }
 }

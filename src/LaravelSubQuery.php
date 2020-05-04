@@ -59,7 +59,17 @@ class LaravelSubQuery extends Builder
         return $this->withSubQuery($relations, 'avg');
     }
 
-    protected function withSubQuery($relations, $type)
+    public function orderByRelation($relations, $type = 'max', $orderType = 'desc')
+    {
+        if (is_array($relations)) {
+            $type = $relations[0];
+            $orderType = $relations[1];
+            unset($relations[0], $relations[1]);
+        }
+        return $this->withSubQuery($relations, $type, $orderType);
+    }
+
+    protected function withSubQuery($relations, $type, $orderType = null)
     {
         if (empty($relations)) {
             return $this;
@@ -114,6 +124,11 @@ class LaravelSubQuery extends Builder
                 $column = $alias ?? Str::snake($name.'_'.$column.'_'.$type);
 
                 $this->selectSub($query, $column);
+
+                // Add sorting
+                if ($orderType) {
+                    $this->orderBy($column, $orderType);
+                }
             }
         }
 

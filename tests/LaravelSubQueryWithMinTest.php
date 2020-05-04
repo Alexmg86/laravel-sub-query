@@ -47,11 +47,11 @@ class LaravelSubQueryWithMinTest extends DatabaseTestCase
         }
 
         $results = Invoice::withMin(['items:price', 'goods:price,price2' => function (Builder $query) {
-            $query->where('price', '>', 6);
+            $query->where('price', '<', 5);
         }]);
 
         $this->assertEquals([
-            ['id' => 1, 'name' => 'text_name', 'items_price_min' => 1, 'goods_price_min' => 7, 'goods_price2_min' => 8],
+            ['id' => 1, 'name' => 'text_name', 'items_price_min' => 1, 'goods_price_min' => 1, 'goods_price2_min' => 2],
         ], $results->get()->toArray());
     }
 
@@ -105,7 +105,7 @@ class LaravelSubQueryWithMinTest extends DatabaseTestCase
         }
 
         $result = Invoice::withMin('goods:price')->first();
-        $this->assertEquals(6, $result->goods_price_min);
+        $this->assertEquals(1, $result->goods_price_min);
 
         $result = Invoice::withMin('allGoods:price')->first();
         $this->assertEquals(1, $result->all_goods_price_min);
