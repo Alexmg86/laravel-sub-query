@@ -66,6 +66,7 @@ class LaravelSubQuery extends Builder
             $orderType = $relations[1];
             unset($relations[0], $relations[1]);
         }
+
         return $this->withSubQuery($relations, $type, $orderType);
     }
 
