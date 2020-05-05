@@ -124,7 +124,9 @@ class LaravelSubQuery extends Builder
                 // to the developer for further constraint chaining that needs to take place on it.
                 $column = $alias ?? Str::snake($name.'_'.$column.'_'.$type);
 
-                $this->selectSub($query, $column);
+                if (strpos($this->toSql(), $query->toSql()) === false) {
+                    $this->selectSub($query, $column);
+                }
 
                 // Add sorting
                 if ($orderType) {
