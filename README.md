@@ -101,3 +101,6 @@ $invoices = Invoice::orderByRelation(['items:price' => function (Builder $query)
 }, 'max', 'desc'])->get();
 ```
 By default, sorting is by `max` and `desc`, you can choose one of the options `max`, `min`, `sum`, `avg`, `desc`, `acs`.
+```php
+$invoices = Invoice::orderByRelation('items:price', 'sum', 'asc')->get();
+```
