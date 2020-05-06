@@ -35,7 +35,7 @@ class LaravelSubQueryOrderByRelationTest extends DatabaseTestCase
 
         $results = Invoice::orderByRelation(['items:price' => function (Builder $query) {
             $query->where('price', '<', 6);
-        }, 'max', 'desc'])->get();
+        }, 'desc', 'max'])->get();
         $this->assertEquals([['id' => 1, 'name' => 'text_name', 'items_price_max' => 5]], $results->toArray());
 
         $results = Invoice::orderByRelation('goods:price')->get();
