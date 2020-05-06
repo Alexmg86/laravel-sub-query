@@ -143,7 +143,12 @@ class LaravelSubQuery extends Builder
         return $this;
     }
 
-    protected function getSql($builder) 
+    /**
+     * Convert the request to a full one
+     * @param  [object] $builder
+     * @return [string]
+     */
+    protected function getSql($builder)
     {
         $sql = $builder->toSql();
         $bindings = $builder->getBindings();
@@ -151,6 +156,7 @@ class LaravelSubQuery extends Builder
             $value = is_numeric($binding) ? $binding : "'".$binding."'";
             $sql = preg_replace('/\?/', $value, $sql, 1);
         }
+
         return $sql;
     }
 
