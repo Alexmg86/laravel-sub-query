@@ -144,7 +144,7 @@ class LaravelSubQuery extends Builder
     }
 
     /**
-     * Convert the request to a full one
+     * Convert the request to a full one.
      * @param  [object] $builder
      * @return [string]
      */
