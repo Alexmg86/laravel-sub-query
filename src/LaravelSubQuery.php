@@ -62,12 +62,14 @@ class LaravelSubQuery extends Builder
     public function orderByRelation($relations, $orderType = 'desc', $type = 'max')
     {
         if (is_array($relations)) {
-            $orderType = $relations[0];
-            $type = $relations[1];
+            $orderType = isset($relations[0]) ? $relations[0] : $orderType;
+            $type = isset($relations[1]) ? $relations[1] : $type;
             unset($relations[0], $relations[1]);
         }
-        if (! strpos($relations, ':')) {
-            return $this->orderBy($relations, $orderType);
+
+        $column = is_array($relations) ? array_key_first($relations) : $relations;
+        if (! strpos($column, ':')) {
+            return $this->orderBy($column, $orderType);
         }
 
         return $this->withSubQuery($relations, $type, $orderType);
