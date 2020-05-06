@@ -98,9 +98,9 @@ or with conditions
 ```php
 $invoices = Invoice::orderByRelation(['items:price' => function (Builder $query) {
     $query->where('price', '>', 6);
-}, 'max', 'desc'])->get();
+}, 'desc', 'max'])->get();
 ```
 By default, sorting is by `max` and `desc`, you can choose one of the options `max`, `min`, `sum`, `avg`, `desc`, `acs`.
 ```php
-$invoices = Invoice::orderByRelation('items:price', 'sum', 'asc')->get();
+$invoices = Invoice::orderByRelation('items:price', 'asc', 'sum')->get();
 ```

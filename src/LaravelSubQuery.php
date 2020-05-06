@@ -59,14 +59,16 @@ class LaravelSubQuery extends Builder
         return $this->withSubQuery($relations, 'avg');
     }
 
-    public function orderByRelation($relations, $type = 'max', $orderType = 'desc')
+    public function orderByRelation($relations, $orderType = 'desc', $type = 'max')
     {
         if (is_array($relations)) {
-            $type = $relations[0];
-            $orderType = $relations[1];
+            $orderType = $relations[0];
+            $type = $relations[1];
             unset($relations[0], $relations[1]);
         }
-
+        if (!strpos($relations, ':')) {
+            return $this->orderBy($relations, $orderType);
+        }
         return $this->withSubQuery($relations, $type, $orderType);
     }
 
