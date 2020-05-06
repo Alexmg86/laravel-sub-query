@@ -129,7 +129,7 @@ class LaravelSubQuery extends Builder
                 // to the developer for further constraint chaining that needs to take place on it.
                 $column = $alias ?? Str::snake($name.'_'.$column.'_'.$type);
 
-                if (strpos($this->toSql(), $query->toSql()) === false) {
+                if (strpos($this->getSql($this), $this->getSql($query)) === false) {
                     $this->selectSub($query, $column);
                 }
 
@@ -141,6 +141,17 @@ class LaravelSubQuery extends Builder
         }
 
         return $this;
+    }
+
+    protected function getSql($builder) 
+    {
+        $sql = $builder->toSql();
+        $bindings = $builder->getBindings();
+        foreach ($bindings as $binding) {
+            $value = is_numeric($binding) ? $binding : "'".$binding."'";
+            $sql = preg_replace('/\?/', $value, $sql, 1);
+        }
+        return $sql;
     }
 
     /**
