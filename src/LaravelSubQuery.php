@@ -69,7 +69,7 @@ class LaravelSubQuery extends Builder
         if (! strpos($relations, ':')) {
             return $this->orderBy($relations, $orderType);
         }
-        
+
         return $this->withSubQuery($relations, $type, $orderType);
     }
 
