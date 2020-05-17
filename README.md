@@ -7,9 +7,13 @@
 ## Why is this package needed?
 
 Now, if you want the sum or find the maximum column value in the related model, you will have two database queries.  
-With this methods, it all turns into 1 query to the database and there is no need to load extra data.  
+With this methods, it all turns into one query to the database and there is no need to load extra data.  
 It is also possible to sort by related models. And this sorting works with all types of relations.  
 I often use this in my work and I hope it will be useful to you!
+
+## Say thank you
+
+If you liked this package, please give me a star.
 
 ## Installation
 
