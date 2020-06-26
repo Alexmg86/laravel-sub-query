@@ -82,7 +82,7 @@ class LaravelSubQuery extends Builder
         }
 
         if (is_null($this->query->columns)) {
-            $this->query->select([$this->query->from.'.*']);
+            $this->query->select([$this->query->from . '.*']);
         }
 
         $relations = is_array($relations) ? $relations : array_slice(func_get_args(), 0, 1);
@@ -107,7 +107,9 @@ class LaravelSubQuery extends Builder
             // sum query. We will normalize the relation name then append _{column}_sum as the name.
             foreach ($columns as $column) {
                 $query = $relation->getRelationExistenceQuery(
-                    $relation->getRelated()->newQuery(), $this, new Expression(''.$type.'('.$column.')')
+                    $relation->getRelated()->newQuery(),
+                    $this,
+                    new Expression('' . $type . '(' . $column . ')')
                 )->setBindings([], 'select');
 
                 $query->callScope($constraints);
@@ -127,7 +129,7 @@ class LaravelSubQuery extends Builder
                 // Finally we will add the proper result column alias to the query and run the subselect
                 // statement against the query builder. Then we will return the builder instance back
                 // to the developer for further constraint chaining that needs to take place on it.
-                $column = $alias ?? Str::snake($name.'_'.$column.'_'.$type);
+                $column = $alias ?? Str::snake($name . '_' . $column . '_' . $type);
 
                 if (strpos($this->getSql($this), $this->getSql($query)) === false) {
                     $this->selectSub($query, $column);
@@ -153,7 +155,7 @@ class LaravelSubQuery extends Builder
         $sql = $builder->toSql();
         $bindings = $builder->getBindings();
         foreach ($bindings as $binding) {
-            $value = is_numeric($binding) ? $binding : "'".$binding."'";
+            $value = is_numeric($binding) ? $binding : "'" . $binding . "'";
             $sql = preg_replace('/\?/', $value, $sql, 1);
         }
 
@@ -171,7 +173,6 @@ class LaravelSubQuery extends Builder
         $results = [];
 
         foreach ($relations as $name => $constraints) {
-
             // If the "name" value is a numeric key, we can assume that no constraints
             // have been specified. We will just put an empty Closure there so that
             // we can treat these all the same while we are looping through them.
