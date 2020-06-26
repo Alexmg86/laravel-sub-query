@@ -134,4 +134,62 @@ class LaravelSubQueryCollection extends Collection
 
         return $this;
     }
+
+    /**
+     * Load a set of relationship with limit onto the collection.
+     *
+     * @param  array|string  $relations
+     * @return $this
+     */
+    public function loadLimit($relations)
+    {
+        if ($this->isNotEmpty()) {
+            if (is_string($relations)) {
+                $relations = func_get_args();
+            }
+
+            $getLimits = $this->getLimits($relations);
+
+            $relations = $getLimits['relations'];
+            $limits = $getLimits['limits'];
+
+            $query = $this->first()->newQueryWithoutRelationships()->with($relations);
+
+            $this->items = $query->eagerLoadRelations($this->items);
+        }
+
+        foreach ($this as &$item) {
+            $relations = [];
+            foreach ($limits as $key => $limit) {
+                $relations[$key] = $item->$key->take($limit);
+            }
+            $item->setRelations($relations);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Separate limits and relations
+     *
+     * @param  array|string  $relations
+     * @return array
+     */
+    private function getLimits($relations)
+    {
+        $relationsList = [];
+        $limits = [];
+        foreach ($relations as $key => $value) {
+            if (is_string($value)) {
+                $value = explode(':', $value);
+                $relationsList[$key] = $value[0];
+                $limits[$value[0]] = $value[1];
+            } else {
+                $key = explode(':', $key);
+                $relationsList[$key[0]] = $value;
+                $limits[$key[0]] = $key[1];
+            }
+        }
+        return ['relations' => $relationsList, 'limits' => $limits];
+    }
 }
