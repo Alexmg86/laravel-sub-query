@@ -126,11 +126,9 @@ class LaravelSubQueryWithAvgTest extends DatabaseTestCase
 
         $result = Invoice::withAvg('items:price')->toSql();
 
-        $this->assertSame(
-            'select "invoices".*, (select avg(price) from "items"
-            where "invoices"."id" = "items"."invoice_id") as "items_price_avg"
-            from "invoices"',
-            $result
-        );
+        $query = 'select "invoices".*, (select avg(price) from "items"';
+        $query .= ' where "invoices"."id" = "items"."invoice_id") as "items_price_avg"';
+        $query .= ' from "invoices"';
+        $this->assertSame($query, $result);
     }
 }
