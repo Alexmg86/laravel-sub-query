@@ -6,9 +6,10 @@
 
 ## Why is this package needed?
 
-Now, if you want the sum or find the maximum column value in the related model, you will have two database queries.  
+With standard use of Laravel, if you want the sum or find the maximum column value in the related model, you will have two database queries.  
 With this methods, it all turns into one query to the database and there is no need to load extra data.  
 It is also possible to sort by related models. And this sorting works with all types of relations.  
+Added ability to load relations with a limit for each model without multiple queries.  
 I often use this in my work and I hope it will be useful to you!
 
 ## Say thank you
@@ -108,3 +109,18 @@ By default, sorting is by `max` and `desc`, you can choose one of the options `m
 ```php
 $invoices = Invoice::orderByRelation('items:price', 'asc', 'sum')->get();
 ```
+
+### Limit relations
+
+If you want to load related model with limit, simply use the following method:
+```php
+$invoices = Invoice::all();
+$invoices->loadLimit('items:1');
+```
+or with conditions
+```php
+$invoices->loadLimit(['items:2', 'goods:1' => function ($query) {
+    $query->orderBy('id', 'desc')->where('price', '<', 6);
+}]);
+```
+Note that first you write the name of the relation, and then the number of rows.

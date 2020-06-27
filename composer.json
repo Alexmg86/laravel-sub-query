@@ -2,7 +2,7 @@
   "name": "alexmg86/laravel-sub-query",
   "description": "Laravel subquery",
   "license": "MIT",
-  "keywords": ["php", "laravel", "sub", "query", "withSum"],
+  "keywords": ["php", "laravel", "sub", "query", "withSum", "withMax", "withMin", "withAvg", "orderByRelation", "limit relation"],
   "type": "library",
   "authors": [
     {
