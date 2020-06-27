@@ -51,7 +51,13 @@ class LaravelSubQueryWithSumTest extends DatabaseTestCase
         }]);
 
         $this->assertEquals([
-            ['id' => 1, 'name' => 'text_name', 'items_price_sum' => 55, 'goods_price_sum' => 10, 'goods_price2_sum' => 14],
+            [
+                'id' => 1,
+                'name' => 'text_name',
+                'items_price_sum' => 55,
+                'goods_price_sum' => 10,
+                'goods_price2_sum' => 14
+            ],
         ], $results->get()->toArray());
     }
 
@@ -120,6 +126,11 @@ class LaravelSubQueryWithSumTest extends DatabaseTestCase
 
         $result = Invoice::withSum('items:price')->toSql();
 
-        $this->assertSame('select "invoices".*, (select sum(price) from "items" where "invoices"."id" = "items"."invoice_id") as "items_price_sum" from "invoices"', $result);
+        $this->assertSame(
+            'select "invoices".*, (select sum(price) from "items"
+            where "invoices"."id" = "items"."invoice_id") as "items_price_sum"
+            from "invoices"',
+            $result
+        );
     }
 }

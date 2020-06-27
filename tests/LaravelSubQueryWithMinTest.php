@@ -120,6 +120,11 @@ class LaravelSubQueryWithMinTest extends DatabaseTestCase
 
         $result = Invoice::withMin('items:price')->toSql();
 
-        $this->assertSame('select "invoices".*, (select min(price) from "items" where "invoices"."id" = "items"."invoice_id") as "items_price_min" from "invoices"', $result);
+        $this->assertSame(
+            'select "invoices".*, (select min(price) from "items"
+            where "invoices"."id" = "items"."invoice_id") as "items_price_min"
+            from "invoices"',
+            $result
+        );
     }
 }

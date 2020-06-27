@@ -51,7 +51,13 @@ class LaravelSubQueryWithMaxTest extends DatabaseTestCase
         }]);
 
         $this->assertEquals([
-            ['id' => 1, 'name' => 'text_name', 'items_price_max' => 10, 'goods_price_max' => 4, 'goods_price2_max' => 5],
+            [
+                'id' => 1,
+                'name' => 'text_name',
+                'items_price_max' => 10,
+                'goods_price_max' => 4,
+                'goods_price2_max' => 5
+            ],
         ], $results->get()->toArray());
     }
 
@@ -120,6 +126,11 @@ class LaravelSubQueryWithMaxTest extends DatabaseTestCase
 
         $result = Invoice::withMax('items:price')->toSql();
 
-        $this->assertSame('select "invoices".*, (select max(price) from "items" where "invoices"."id" = "items"."invoice_id") as "items_price_max" from "invoices"', $result);
+        $this->assertSame(
+            'select "invoices".*, (select max(price) from "items"
+            where "invoices"."id" = "items"."invoice_id") as "items_price_max"
+            from "invoices"',
+            $result
+        );
     }
 }
