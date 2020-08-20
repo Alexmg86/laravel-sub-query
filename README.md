@@ -9,7 +9,7 @@
 With standard use of Laravel, if you want the sum or find the maximum column value in the related model, you will have two database queries.  
 With this methods, it all turns into one query to the database and there is no need to load extra data.  
 It is also possible to sort by related models. And this sorting works with all types of relations.  
-Added ability to load relations with a limit for each model without multiple queries.  
+Added ability to load only one latest or oldest related model for each model without multiple queries.  
 I often use this in my work and I hope it will be useful to you!
 
 ## Say thank you
@@ -109,6 +109,23 @@ By default, sorting is by `max` and `desc`, you can choose one of the options `m
 ```php
 $invoices = Invoice::orderByRelation('items:price', 'asc', 'sum')->get();
 ```
+
+### Load latest or oldest relation
+
+Imagine you want to get a list of 50 accounts, each with 100 items. By default, you will get 5000 positions and select the first ones for each account. PHP smokes nervously on the sidelines.  
+Wow! Now you can load only one latest or oldest related model:
+```php
+$invoices = Invoice::all();
+$invoices->loadOneLatest('items');
+$invoices->loadOneOldest('items');
+```
+or with conditions
+```php
+$invoices->loadOneLatest(['items' => function ($query) {
+    $query->orderBy('id', 'desc')->where('price', '<', 6);
+}]);
+```
+You can use this with relation types hasMany, belongsToMany and hasManyThrough.
 
 ### Limit relations
 

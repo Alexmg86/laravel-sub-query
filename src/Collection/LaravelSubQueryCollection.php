@@ -2,6 +2,7 @@
 
 namespace Alexmg86\LaravelSubQuery\Collection;
 
+use Closure;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Arr;
 
@@ -191,5 +192,42 @@ class LaravelSubQueryCollection extends Collection
             }
         }
         return ['relations' => $relationsList, 'limits' => $limits];
+    }
+
+    /**
+     * Load a set of relationship with limit one latest item onto the collection.
+     *
+     * @param  array|string  $relations
+     * @return $this
+     */
+    public function loadOneLatest($relations)
+    {
+        return $this->loadOne($relations);
+    }
+
+    /**
+     * Load a set of relationship with limit one oldest item onto the collection.
+     *
+     * @param  array|string  $relations
+     * @return $this
+     */
+    public function loadOneOldest($relations)
+    {
+        return $this->loadOne($relations, 'MIN');
+    }
+
+    private function loadOne($relations, $type = 'MAX')
+    {
+        if ($this->isNotEmpty()) {
+            if (is_string($relations)) {
+                $relations = func_get_args()[0];
+            }
+
+            $query = $this->first()->newQueryWithoutRelationships()->with($relations);
+
+            $this->items = $query->eagerLoadRelationsOne($this->items, $type);
+        }
+
+        return $this;
     }
 }

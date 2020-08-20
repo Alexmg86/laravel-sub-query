@@ -2,8 +2,12 @@
 
 namespace Alexmg86\LaravelSubQuery;
 
+use Closure;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\QueriesRelationships;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Query\Expression;
 use Illuminate\Support\Str;
 
@@ -207,5 +211,81 @@ class LaravelSubQuery extends Builder
     public function setWithAvg($withAvg)
     {
         return $this->withAvg($withAvg);
+    }
+
+    /**
+     * Eager load the relationships for the models.
+     * Overwriting Illuminate\Database\Eloquent\Builder@eagerLoadRelations
+     *
+     * @param  array  $models
+     * @return array
+     */
+    public function eagerLoadRelationsOne(array $models, string $type)
+    {
+        foreach ($this->eagerLoad as $name => $constraints) {
+            if (strpos($name, '.') === false) {
+                $models = $this->eagerLoadRelationOne($models, $name, $constraints, $type);
+            }
+        }
+
+        return $models;
+    }
+
+    /**
+     * Eagerly load the relationship on a set of models.
+     * Overwriting Illuminate\Database\Eloquent\Builder@eagerLoadRelation
+     *
+     * @param  array  $models
+     * @param  string  $name
+     * @param  \Closure  $constraints
+     * @return array
+     */
+    protected function eagerLoadRelationOne(array $models, $name, Closure $constraints, string $type)
+    {
+        $relation = $this->getRelation($name);
+
+        $relation->addEagerConstraints($models);
+
+        $constraints($relation);
+
+        $parseData = $this->parseRelationToKeys($relation, $type);
+
+        return $relation->match(
+            $relation->initRelation($models, $name),
+            $relation
+            ->whereIn($parseData[0], $parseData[1])
+            ->getEager(),
+            $name
+        );
+    }
+
+    /**
+     * Getting only need ids
+     * @param  object $relation
+     * @param  string $type
+     * @return array
+     */
+    private function parseRelationToKeys(object $relation, string $type)
+    {
+        $relationCopy = clone $relation;
+
+        $typeRelation = get_class($relationCopy);
+        switch (get_class($relationCopy)) {
+            case HasMany::class:
+                $maxKey = $asKey = $relation->getLocalKeyName();
+                $groupby = $relation->getForeignKeyName();
+                break;
+            case BelongsToMany::class:
+                $maxKey = $asKey = $relation->getRelatedKeyName();
+                $groupby = $relation->getRelated()->getTable() . '.' . $relation->getForeignPivotKeyName();
+                break;
+            case HasManyThrough::class:
+                $asKey = $relation->getSecondLocalKeyName();
+                $maxKey = $relation->getRelated()->getTable() . '.' . $asKey;
+                $groupby = $relation->getParent()->getTable() . '.' . $relation->getFirstKeyName();
+                break;
+        }
+
+        return [$maxKey, $relationCopy->selectRaw("$type($maxKey) as $asKey")->groupby($groupby)->pluck($asKey)];
     }
 }

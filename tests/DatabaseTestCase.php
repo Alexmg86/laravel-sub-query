@@ -14,6 +14,9 @@ class DatabaseTestCase extends TestCase
         $this->createInvoicesTable();
         $this->createItemsTable();
         $this->createGoodsTable();
+        $this->createCountriesTable();
+        $this->createCustomersTable();
+        $this->createPostsTable();
     }
 
     protected function getEnvironmentSetUp($app)
@@ -54,6 +57,32 @@ class DatabaseTestCase extends TestCase
             $table->integer('invoice_id');
             $table->integer('price');
             $table->integer('price2');
+        });
+    }
+
+    protected function createCountriesTable(): void
+    {
+        Schema::create('countries', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+        });
+    }
+
+    protected function createCustomersTable(): void
+    {
+        Schema::create('customers', function (Blueprint $table) {
+            $table->id();
+            $table->integer('country_id');
+            $table->string('name');
+        });
+    }
+
+    protected function createPostsTable(): void
+    {
+        Schema::create('posts', function (Blueprint $table) {
+            $table->id();
+            $table->integer('user_id');
+            $table->string('title');
         });
     }
 }

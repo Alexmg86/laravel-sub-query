@@ -67,6 +67,28 @@ trait LaravelSubQueryTrait
         return $this;
     }
 
+    /**
+     * Eager load latest relation on the model.
+     *
+     * @param  array|string  $relations
+     * @return $this
+     */
+    public function loadOneLatest($relations)
+    {
+        return $this->newCollection([$this])->loadOneLatest($relations);
+    }
+
+    /**
+     * Eager load oldest relation on the model.
+     *
+     * @param  array|string  $relations
+     * @return $this
+     */
+    public function loadOneOldest($relations)
+    {
+        return $this->newCollection([$this])->loadOneOldest($relations);
+    }
+
     public function newEloquentBuilder($builder)
     {
         $newEloquentBuilder = new LaravelSubQuery($builder);
