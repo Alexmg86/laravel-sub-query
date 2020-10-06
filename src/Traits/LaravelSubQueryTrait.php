@@ -4,6 +4,7 @@ namespace Alexmg86\LaravelSubQuery\Traits;
 
 use Alexmg86\LaravelSubQuery\Collection\LaravelSubQueryCollection;
 use Alexmg86\LaravelSubQuery\LaravelSubQuery;
+use Alexmg86\LaravelSubQuery\LaravelSubQueryCache;
 
 trait LaravelSubQueryTrait
 {
@@ -89,6 +90,44 @@ trait LaravelSubQueryTrait
         return $this->newCollection([$this])->loadOneOldest($relations);
     }
 
+    /**
+     * Get a new query builder instance for the connection.
+     *
+     * @return \Illuminate\Database\Query\Builder
+     */
+    protected function newBaseQueryBuilder()
+    {
+        $conn = $this->getConnection();
+
+        $grammar = $conn->getQueryGrammar();
+
+        $builder = new LaravelSubQueryCache($conn, $grammar, $conn->getPostProcessor());
+
+        if (isset($this->rememberFor)) {
+            $builder->remember($this->rememberFor);
+        }
+
+        if (isset($this->rememberCacheTag)) {
+            $builder->cacheTags($this->rememberCacheTag);
+        }
+
+        if (isset($this->rememberCachePrefix)) {
+            $builder->prefix($this->rememberCachePrefix);
+        }
+
+        if (isset($this->rememberCacheDriver)) {
+            $builder->cacheDriver($this->rememberCacheDriver);
+        }
+
+        return $builder;
+    }
+
+    /**
+     * Create a new Eloquent query builder for the model.
+     *
+     * @param  \Illuminate\Database\Query\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder|static
+     */
     public function newEloquentBuilder($builder)
     {
         $newEloquentBuilder = new LaravelSubQuery($builder);
@@ -113,6 +152,12 @@ trait LaravelSubQueryTrait
         return $newEloquentBuilder;
     }
 
+    /**
+     * Create a new Eloquent Collection instance.
+     *
+     * @param  array  $models
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
     public function newCollection(array $models = [])
     {
         return new LaravelSubQueryCollection($models);

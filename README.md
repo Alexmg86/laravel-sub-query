@@ -12,6 +12,10 @@ It is also possible to sort by related models. And this sorting works with all t
 Added ability to load only one latest or oldest related model for each model without multiple queries.  
 I often use this in my work and I hope it will be useful to you!
 
+## Last added
+
+Added caching of [received data](https://github.com/Alexmg86/laravel-sub-query#caching)
+
 ## Say thank you
 
 If you liked this package, please give me a star.
@@ -141,3 +145,16 @@ $invoices->loadLimit(['items:2', 'goods:1' => function ($query) {
 }]);
 ```
 Note that first you write the name of the relation, and then the number of rows.
+
+### Caching
+
+For convenience, you can now cache the received data.
+```php
+// Get a the first user's posts and remember them for a day.
+Invoice::withSum('items:price')->remember(now()->addDay())->posts()->get();
+
+// You can also pass the number of seconds if you like
+// (before Laravel 5.8 this will be interpreted as minutes).
+Invoice::withSum('items:price')->remember(60 * 60 * 24)->get();
+```
+A more detailed description [is here](https://github.com/Alexmg86/laravel-sub-query/wiki/Cache)
