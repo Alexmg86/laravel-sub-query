@@ -14,7 +14,7 @@ I often use this in my work and I hope it will be useful to you!
 
 ## Last added
 
-2020/10/21 - Some sugar [received data](https://github.com/Alexmg86/laravel-sub-query#sugar)  
+2020/10/21 - Added [some sugar](https://github.com/Alexmg86/laravel-sub-query#sugar)  
 2020/10/06 - Added caching of [received data](https://github.com/Alexmg86/laravel-sub-query#caching)
 
 ## Say thank you
