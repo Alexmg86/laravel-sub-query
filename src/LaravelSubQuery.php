@@ -2,6 +2,7 @@
 
 namespace Alexmg86\LaravelSubQuery;
 
+use Alexmg86\LaravelSubQuery\Traits\LaravelSubQuerySugar;
 use Closure;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\QueriesRelationships;
@@ -13,6 +14,7 @@ use Illuminate\Support\Str;
 
 class LaravelSubQuery extends Builder
 {
+    use LaravelSubQuerySugar;
     use QueriesRelationships;
 
     /**

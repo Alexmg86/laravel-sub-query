@@ -14,7 +14,8 @@ I often use this in my work and I hope it will be useful to you!
 
 ## Last added
 
-Added caching of [received data](https://github.com/Alexmg86/laravel-sub-query#caching)
+2020/10/21 - Some sugar [received data](https://github.com/Alexmg86/laravel-sub-query#sugar)
+2020/10/06 - Added caching of [received data](https://github.com/Alexmg86/laravel-sub-query#caching)
 
 ## Say thank you
 
@@ -158,3 +159,8 @@ Invoice::withSum('items:price')->remember(now()->addDay())->posts()->get();
 Invoice::withSum('items:price')->remember(60 * 60 * 24)->get();
 ```
 A more detailed description [is here](https://github.com/Alexmg86/laravel-sub-query/wiki/Cache)
+
+### Sugar
+
+I got tired of writing some things in detail and I decided to remove them in methods.  
+You can see [it here](https://github.com/Alexmg86/laravel-sub-query/wiki/Some-sugar)
