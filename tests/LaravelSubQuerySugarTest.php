@@ -61,7 +61,7 @@ class LaravelSubQuerySugarTest extends DatabaseTestCase
         }
 
         $results = Invoice::orderByDesc('name')->first();
-        
+
         $this->assertEquals(22, $results->name);
 
         $results = Invoice::castColumn('name', 'signed')->orderByDesc('name')->first();
