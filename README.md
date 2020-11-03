@@ -14,6 +14,7 @@ I often use this in my work and I hope it will be useful to you!
 
 ## Last added
 
+2020/11/03 - Added method [withMath](https://github.com/Alexmg86/laravel-sub-query#working-with-columns)  
 2020/10/21 - Added [some sugar](https://github.com/Alexmg86/laravel-sub-query#sugar)  
 2020/10/06 - Added caching of [received data](https://github.com/Alexmg86/laravel-sub-query#caching)
 
@@ -113,6 +114,19 @@ $invoices = Invoice::orderByRelation(['items:price' => function (Builder $query)
 By default, sorting is by `max` and `desc`, you can choose one of the options `max`, `min`, `sum`, `avg`, `desc`, `acs`.
 ```php
 $invoices = Invoice::orderByRelation('items:price', 'asc', 'sum')->get();
+```
+
+### Working with columns
+
+To add or multiply the required columns use this method:
+```php
+$items = Item::withMath(['invoice_id', 'price'])->get();
+echo $items[0]->sum_invoice_id_price;
+```
+Columns will be summed by default, you can choose one of the options `+`, `-`, `*`, `/` and set a new name.
+```php
+$items = Item::withMath(['invoice_id', 'price', 'price2'], '*', 'new_column')->get();
+echo $items[0]->new_column;
 ```
 
 ### Load latest or oldest relation

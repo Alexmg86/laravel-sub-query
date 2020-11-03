@@ -49,4 +49,46 @@ trait LaravelSubQuerySugar
         }
         return $this;
     }
+
+    /**
+     * Column math
+     * @param  string[]    $columns
+     * @param  string      $operator
+     * @param  string|null $name
+     * @return $this
+     */
+    public function withMath($columns, $operator = '+', $name = null)
+    {
+        $default = [
+            '+' => 'sum_',
+            '-' => 'sub_',
+            '*' => 'multi_',
+            '/' => 'div_'
+        ];
+
+        if (!is_array($columns) || count($columns) < 2) {
+            return $this;
+        }
+
+        if (is_null($this->query->columns)) {
+            $this->query->select([$this->query->from . '.*']);
+        }
+
+        $query = [];
+        foreach ($columns as $column) {
+            $query[] = $this->query->from . "." . $column;
+        }
+        $query = implode(" $operator ", $query);
+
+        $asName = implode('_', $columns);
+        if ($name) {
+            $asName = $name;
+        } elseif (array_key_exists($operator, $default)) {
+            $asName = $default[$operator] . $asName;
+        } else {
+            $asName = 'custom_' . $asName;
+        }
+
+        return $this->addSelect(new Expression("$query as $asName"));
+    }
 }

@@ -5,6 +5,7 @@ namespace Alexmg86\LaravelSubQuery\Tests;
 use Alexmg86\LaravelSubQuery\Facades\LaravelSubQuery;
 use Alexmg86\LaravelSubQuery\ServiceProvider;
 use Alexmg86\LaravelSubQuery\Tests\Models\Invoice;
+use Alexmg86\LaravelSubQuery\Tests\Models\Item;
 
 class LaravelSubQuerySugarTest extends DatabaseTestCase
 {
@@ -67,5 +68,22 @@ class LaravelSubQuerySugarTest extends DatabaseTestCase
         $results = Invoice::castColumn('name', 'signed')->orderByDesc('name')->first();
 
         $this->assertEquals(111, $results->name);
+    }
+
+    public function testWithMaths()
+    {
+        Item::create(['invoice_id' => 1, 'price' => 2, 'price2' => 5]);
+
+        $results = Item::withMath(['price', 'price2'])->first();
+
+        $this->assertEquals(7, $results->sum_price_price2);
+
+        $results = Item::withMath(['price', 'price2'], '*')->first();
+
+        $this->assertEquals(10, $results->multi_price_price2);
+
+        $results = Item::withMath(['price', 'price2'], '*', 'multi')->first();
+
+        $this->assertEquals(10, $results->multi);
     }
 }
