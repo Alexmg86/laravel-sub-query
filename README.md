@@ -14,6 +14,7 @@ I often use this in my work and I hope it will be useful to you!
 
 ## Last added
 
+2020/12/10 - Added casting for withSum('items:price:signed') and others  
 2020/11/03 - Added method [withMath](https://github.com/Alexmg86/laravel-sub-query#working-with-columns)  
 2020/10/21 - Added [some sugar](https://github.com/Alexmg86/laravel-sub-query#sugar)  
 2020/10/06 - Added caching of [received data](https://github.com/Alexmg86/laravel-sub-query#caching)
@@ -52,6 +53,10 @@ echo $invoices[0]->items_price_sum;
 echo $invoices[0]->items_price_min;
 echo $invoices[0]->items_price_max;
 echo $invoices[0]->items_price_avg;
+```
+The resulting value can be loaded through the third parameter. Some types for example: date, datetime, time, char, signed, unsigned, binary.
+```php
+$invoices = Invoice::withSum('items:price:signed')->get();
 ```
 ### The following methods apply to all methods!!!
 

@@ -131,4 +131,19 @@ class LaravelSubQueryWithSumTest extends DatabaseTestCase
         $query .= ' from "invoices"';
         $this->assertSame($query, $result);
     }
+
+    public function testCastColumn()
+    {
+        $invoice = Invoice::create(['id' => 1, 'name' => 'text_name']);
+        for ($i = 1; $i < 11; $i++) {
+            Item::create(['invoice_id' => $invoice->id, 'price' => $i, 'price2' => $i + 1]);
+        }
+
+        $results = Invoice::withSum('items:price,price2:signed');
+
+        $this->assertEquals(
+            ['id' => 1, 'name' => 'text_name', 'items_price_sum' => 55, 'items_price2_sum' => 65],
+            $results->first()->toArray()
+        );
+    }
 }

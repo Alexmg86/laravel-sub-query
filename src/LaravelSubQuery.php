@@ -112,6 +112,11 @@ class LaravelSubQuery extends Builder
             // as a sub-select. First, we'll get the "has" query and use that to get the relation
             // sum query. We will normalize the relation name then append _{column}_sum as the name.
             foreach ($columns as $column) {
+                $queryRow = '' . $type . '(' . $column . ')';
+                if (isset($nameExplode[2])) {
+                    $queryRow = 'CAST(' . $type . '(' . $column . ') as ' . $nameExplode[2] . ')';
+                }
+
                 $query = $relation->getRelationExistenceQuery(
                     $relation->getRelated()->newQuery(),
                     $this,
