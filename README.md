@@ -54,7 +54,7 @@ echo $invoices[0]->items_price_min;
 echo $invoices[0]->items_price_max;
 echo $invoices[0]->items_price_avg;
 ```
-The resulting value can be loaded through the third parameter. Some types for example: date, datetime, time, char, signed, unsigned, binary.
+The resulting value can be casting through the third parameter. Some types for example: date, datetime, time, char, signed, unsigned, binary.
 ```php
 $invoices = Invoice::withSum('items:price:signed')->get();
 ```
