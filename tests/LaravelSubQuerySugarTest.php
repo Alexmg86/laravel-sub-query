@@ -86,4 +86,13 @@ class LaravelSubQuerySugarTest extends DatabaseTestCase
 
         $this->assertEquals(10, $results->multi);
     }
+
+    public function testForceIndex()
+    {
+        $this->createBasic();
+
+        $result = Invoice::forceIndex('name')->toSql();
+
+        $this->assertEquals('select * from invoices FORCE INDEX (name)', $result);
+    }
 }

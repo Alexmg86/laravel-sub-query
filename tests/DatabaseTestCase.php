@@ -63,7 +63,7 @@ class DatabaseTestCase extends TestCase
     protected function createCountriesTable(): void
     {
         Schema::create('countries', function (Blueprint $table) {
-            $table->id();
+            $table->increments('id');
             $table->string('name');
         });
     }
@@ -71,7 +71,7 @@ class DatabaseTestCase extends TestCase
     protected function createCustomersTable(): void
     {
         Schema::create('customers', function (Blueprint $table) {
-            $table->id();
+            $table->increments('id');
             $table->integer('country_id');
             $table->string('name');
         });
@@ -80,7 +80,7 @@ class DatabaseTestCase extends TestCase
     protected function createPostsTable(): void
     {
         Schema::create('posts', function (Blueprint $table) {
-            $table->id();
+            $table->increments('id');
             $table->integer('user_id');
             $table->string('title');
         });

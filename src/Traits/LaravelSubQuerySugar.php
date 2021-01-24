@@ -91,4 +91,14 @@ trait LaravelSubQuerySugar
 
         return $this->addSelect(new Expression("$query as $asName"));
     }
+
+    /**
+     * Force index by column
+     * @param  string $column
+     * @return $this
+     */
+    public function forceIndex($column)
+    {
+        return $this->query->from(\DB::raw($this->query->from . ' FORCE INDEX (' . $column . ')'));
+    }
 }

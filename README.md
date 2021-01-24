@@ -14,6 +14,7 @@ I often use this in my work and I hope it will be useful to you!
 
 ## Last added
 
+2021/01/24 - Added method [forceIndex](https://github.com/Alexmg86/laravel-sub-query/wiki/Some-sugar#force-index)  
 2020/12/10 - Added casting for withSum('items:price:signed') and others  
 2020/11/03 - Added method [withMath](https://github.com/Alexmg86/laravel-sub-query#working-with-columns)  
 2020/10/21 - Added [some sugar](https://github.com/Alexmg86/laravel-sub-query#sugar)  
