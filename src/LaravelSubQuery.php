@@ -142,7 +142,7 @@ class LaravelSubQuery extends Builder
                 // to the developer for further constraint chaining that needs to take place on it.
                 $column = $alias ?? Str::snake($name . '_' . $column . '_' . $type);
 
-                if (strpos($this->getSql($this), $this->getSql($query)  . ' as ' . $column) === false) {
+                if (strpos($this->getSql($this), $this->getSql($query) . ' as ' . $column) === false) {
                     $this->selectSub($query, $column);
                 }
 
