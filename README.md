@@ -1,3 +1,5 @@
+![Social Card of Laravel Sub Query](https://github.com/Alexmg86/laravel-sub-query/img/banner.png)
+
 # Laravel Sub Query
 
 ![PHP Composer](https://github.com/Alexmg86/laravel-sub-query/workflows/PHP%20Composer/badge.svg)
