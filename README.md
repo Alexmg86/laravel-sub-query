@@ -1,4 +1,4 @@
-![Social Card of Laravel Sub Query](https://github.com/Alexmg86/laravel-sub-query/blob/master/art/banner.png)
+![Social Card of Laravel Sub Query](https://github.com/Alexmg86/laravel-sub-query/blob/master/art/banner.jpg)
 
 # Laravel Sub Query
 
