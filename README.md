@@ -1,4 +1,4 @@
-<p align="center"><img src="/img/banner.png" alt="Social Card of Laravel Sub Query"></p>
+![Social Card of Laravel Sub Query](https://github.com/Alexmg86/laravel-sub-query/blob/master/art/banner.png)
 
 # Laravel Sub Query
 
