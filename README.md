@@ -8,19 +8,15 @@
 
 ## Why is this package needed?
 
-With standard use of Laravel, if you want the sum or find the maximum column value in the related model, you will have two database queries.  
-With this methods, it all turns into one query to the database and there is no need to load extra data.  
-It is also possible to sort by related models. And this sorting works with all types of relations.  
-Added ability to load only one latest or oldest related model for each model without multiple queries.  
+With standard use of Laravel, if you want the sum or find the maximum column value in the related model, you will have two database queries. What if you need to get a list of one hundred records? With this methods, it all turns into one query to the database and there is no need to load extra data.  
+
+I've also added methods for sorting by related model, or when you only need to get one latest or oldest related model for each model without multiple queries. And there is a lot more to speed up your development and code readability.  
+
 I often use this in my work and I hope it will be useful to you!
 
-## Last added
+## Changelog
 
-2021/01/24 - Added method [forceIndex](https://github.com/Alexmg86/laravel-sub-query/wiki/Some-sugar#force-index)  
-2020/12/10 - Added casting for withSum('items:price:signed') and others  
-2020/11/03 - Added method [withMath](https://github.com/Alexmg86/laravel-sub-query#working-with-columns)  
-2020/10/21 - Added [some sugar](https://github.com/Alexmg86/laravel-sub-query#sugar)  
-2020/10/06 - Added caching of [received data](https://github.com/Alexmg86/laravel-sub-query#caching)
+Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recently.
 
 ## Say thank you
 
