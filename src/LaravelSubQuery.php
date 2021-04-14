@@ -45,22 +45,22 @@ class LaravelSubQuery extends Builder
      */
     protected $withAvg = [];
 
-    public function withSum($relations)
+    public function withSum($relations, $column = null)
     {
         return $this->withSubQuery($relations, 'sum');
     }
 
-    public function withMin($relations)
+    public function withMin($relations, $column = null)
     {
         return $this->withSubQuery($relations, 'min');
     }
 
-    public function withMax($relations)
+    public function withMax($relations, $column = null)
     {
         return $this->withSubQuery($relations, 'max');
     }
 
-    public function withAvg($relations)
+    public function withAvg($relations, $column = null)
     {
         return $this->withSubQuery($relations, 'avg');
     }

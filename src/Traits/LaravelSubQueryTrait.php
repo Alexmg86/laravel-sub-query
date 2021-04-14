@@ -14,7 +14,7 @@ trait LaravelSubQueryTrait
      * @param  array|string  $relations
      * @return $this
      */
-    public function loadSum($relations)
+    public function loadSum($relations, $column = null)
     {
         $relations = is_string($relations) ? func_get_args() : $relations;
 
@@ -29,7 +29,7 @@ trait LaravelSubQueryTrait
      * @param  array|string  $relations
      * @return $this
      */
-    public function loadMin($relations)
+    public function loadMin($relations, $column = null)
     {
         $relations = is_string($relations) ? func_get_args() : $relations;
 
@@ -44,7 +44,7 @@ trait LaravelSubQueryTrait
      * @param  array|string  $relations
      * @return $this
      */
-    public function loadMax($relations)
+    public function loadMax($relations, $column = null)
     {
         $relations = is_string($relations) ? func_get_args() : $relations;
 
@@ -59,7 +59,7 @@ trait LaravelSubQueryTrait
      * @param  array|string  $relations
      * @return $this
      */
-    public function loadAvg($relations)
+    public function loadAvg($relations, $column = null)
     {
         $relations = is_string($relations) ? func_get_args() : $relations;
 

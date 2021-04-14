@@ -14,7 +14,7 @@ class LaravelSubQueryCollection extends Collection
      * @param  array|string  $relations
      * @return $this
      */
-    public function loadSum($relations)
+    public function loadSum($relations, $column = null)
     {
         if ($this->isEmpty()) {
             return $this;
@@ -46,7 +46,7 @@ class LaravelSubQueryCollection extends Collection
      * @param  array|string  $relations
      * @return $this
      */
-    public function loadMin($relations)
+    public function loadMin($relations, $column = null)
     {
         if ($this->isEmpty()) {
             return $this;
@@ -78,7 +78,7 @@ class LaravelSubQueryCollection extends Collection
      * @param  array|string  $relations
      * @return $this
      */
-    public function loadMax($relations)
+    public function loadMax($relations, $column = null)
     {
         if ($this->isEmpty()) {
             return $this;
@@ -110,7 +110,7 @@ class LaravelSubQueryCollection extends Collection
      * @param  array|string  $relations
      * @return $this
      */
-    public function loadAvg($relations)
+    public function loadAvg($relations, $column = null)
     {
         if ($this->isEmpty()) {
             return $this;
