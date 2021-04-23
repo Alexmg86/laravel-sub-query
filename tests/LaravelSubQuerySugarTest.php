@@ -91,8 +91,38 @@ class LaravelSubQuerySugarTest extends DatabaseTestCase
     {
         $this->createBasic();
 
-        $result = Invoice::forceIndex('name')->toSql();
+        $results = Invoice::forceIndex('name')->toSql();
 
-        $this->assertEquals('select * from invoices FORCE INDEX (name)', $result);
+        $this->assertEquals('select * from invoices FORCE INDEX (name)', $results);
+    }
+
+    public function testCurrentYear()
+    {
+        $this->createBasic();
+
+        $results = Invoice::whereCurrentYear()->toSql();
+
+        $need = "select * from \"invoices\" where created_at between date_format(now() ,'%Y-01-01') and now()";
+        $this->assertEquals($need, $results);
+    }
+
+    public function testCurrentMonth()
+    {
+        $this->createBasic();
+
+        $results = Invoice::whereCurrentMonth()->toSql();
+
+        $need = "select * from \"invoices\" where created_at between date_format(now() ,'%Y-%m-01') and now()";
+        $this->assertEquals($need, $results);
+    }
+
+    public function testCurrentDay()
+    {
+        $this->createBasic();
+
+        $results = Invoice::whereCurrentDay()->toSql();
+
+        $need = "select * from \"invoices\" where created_at between date_format(now() ,'%Y-%m-%d') and now()";
+        $this->assertEquals($need, $results);
     }
 }

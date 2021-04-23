@@ -37,6 +37,7 @@ class DatabaseTestCase extends TestCase
         Schema::create('invoices', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name', 100);
+            $table->timestamps();
         });
     }
 

@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-sub-query` will be documented in this file
 
+## [v1.9.9 (2021-04-14)](https://github.com/Alexmg86/laravel-sub-query/compare/v1.9.8...v1.9.9)
+### Added
+- methods whereCurrentYear, whereCurrentMonth, whereCurrentDay
+
 ## [v1.9.8 (2021-04-14)](https://github.com/Alexmg86/laravel-sub-query/compare/v1.9.7...v1.9.8)
 ### Fixed
 - fixed some methods for laravel version 8.*

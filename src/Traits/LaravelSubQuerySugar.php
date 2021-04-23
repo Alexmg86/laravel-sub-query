@@ -101,4 +101,34 @@ trait LaravelSubQuerySugar
     {
         return $this->query->from(\DB::raw($this->query->from . ' FORCE INDEX (' . $column . ')'));
     }
+
+    /**
+     * Find items for current year
+     * @param  string $column
+     * @return $this
+     */
+    public function whereCurrentYear($column = 'created_at')
+    {
+        return $this->whereRaw("$column between date_format(now() ,'%Y-01-01') and now()");
+    }
+
+    /**
+     * Find items for current year
+     * @param  string $column
+     * @return $this
+     */
+    public function whereCurrentMonth($column = 'created_at')
+    {
+        return $this->whereRaw("$column between date_format(now() ,'%Y-%m-01') and now()");
+    }
+
+    /**
+     * Find items for current day
+     * @param  string $column
+     * @return $this
+     */
+    public function whereCurrentDay($column = 'created_at')
+    {
+        return $this->whereRaw("$column between date_format(now() ,'%Y-%m-%d') and now()");
+    }
 }

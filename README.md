@@ -133,6 +133,15 @@ $items = Item::withMath(['invoice_id', 'price', 'price2'], '*', 'new_column')->g
 echo $items[0]->new_column;
 ```
 
+### Working with dates
+
+A more convenient way to select by dates. By default, sorting is by `created_at`.
+```php
+$invoices = Invoice::whereCurrentYear('column_name')->get();
+$invoices = Invoice::whereCurrentMonth()->get();
+$invoices = Invoice::whereCurrentDay()->get();
+```
+
 ### Load latest or oldest relation
 
 Imagine you want to get a list of 50 accounts, each with 100 items. By default, you will get 5000 positions and select the first ones for each account. PHP smokes nervously on the sidelines.  
