@@ -3,6 +3,7 @@
 # Laravel Sub Query
 
 ![PHP Composer](https://github.com/Alexmg86/laravel-sub-query/workflows/PHP%20Composer/badge.svg)
+[![Total Downloads](https://poser.pugx.org/alexmg86/laravel-sub-query/downloads)](https://packagist.org/packages/alexmg86/laravel-sub-query)
 [![Latest Stable Version](https://poser.pugx.org/alexmg86/laravel-sub-query/v/stable)](https://packagist.org/packages/alexmg86/laravel-sub-query)
 [![License](https://poser.pugx.org/alexmg86/laravel-sub-query/license)](https://packagist.org/packages/alexmg86/laravel-sub-query)
 
